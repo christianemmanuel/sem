@@ -4,18 +4,20 @@ $(document).ready(function() {
   $('.accordion-toggle').click(function() {
     if ($(this).text().toLowerCase() == "expand all") {
         $(this).text("Collapse All");
-        $(this).addClass('collapse').removeClass('expand');
+        $(this).addClass('expand_all').removeClass('expand');
+        
         $(this).each(function() {
-        $(this).nextAll('.accordion-item').children('.accordion-btn').addClass('active');
-        $(this).nextAll('.accordion-item').children('.accordion-content').slideDown(400);
-      });
+          $(this).next('.accordion').children('.accordion-item').children('.accordion-btn').addClass('active');
+          $(this).next('.accordion').children('.accordion-item').children('.accordion-content').slideDown(400);
+        });
     } else if ($(this).text().toLowerCase() == "collapse all") {
         $(this).text("Expand All");
-        $(this).addClass('expand').removeClass('collapse');
+        $(this).addClass('expand').removeClass('expand_all');
+        
         $(this).each(function() {
-        $(this).nextAll('.accordion-item').children('.accordion-btn').removeClass('active');
-        $(this).nextAll('.accordion-item').children('.accordion-content').slideUp(400);
-      });
+          $(this).next('.accordion').children('.accordion-item').children('.accordion-btn').removeClass('active');
+          $(this).next('.accordion').children('.accordion-item').children('.accordion-content').slideUp(400);
+        });
     }
   });
 
@@ -24,23 +26,12 @@ $(document).ready(function() {
     $(this).next('.accordion-content').slideToggle(400);
   });
 
-  $(".show_all_hot_issues").click(function () {
-      var text = $(this).html()
-      if (text == '<i class="fa fa-bars" aria-hidden="true"></i> View All List of Hot Issues, Case Monitoring and Bulletin') {
-          $(".list-of-hot-issue").slideDown();
-          $(this).html('<i class="fa fa-minus-square" aria-hidden="true"></i> Hide');
-      } else {
-          $(".list-of-hot-issue").slideUp();
-          $(this).html('<i class="fa fa-bars" aria-hidden="true"></i> View All List of Hot Issues, Case Monitoring and Bulletin');
-      }
-  });
-
   /*****************************
   Hide Top Header 
   ******************************/
   $(window).scroll(function(){
     var winTop = $(window).scrollTop();
-    if(winTop >= 271){
+    if(winTop >= 262){
       $('.navbar').addClass('scroll-up');
     } else {
       $('.navbar').removeClass('scroll-up');
@@ -70,12 +61,12 @@ $(document).ready(function() {
       if (scrollTop > contentNav) {
         $('.menu_content').addClass('fixed-nav');
         $('#hot_issue_section').css({
-          "margin-top" : "88px"
+          "margin-top" : "58px"
         });
       } else {
         $('.menu_content').removeClass('fixed-nav');
         $('#hot_issue_section').css({
-          "margin-top" : "30px"
+          "margin-top" : "0"
         });
       }
     };
@@ -88,7 +79,7 @@ $(document).ready(function() {
   /*****************************
   Animate scroll menu
   ******************************/
-  $('.menu_content ul a').bind('click', function(e) {
+  $('.menu_content ul a, .go_top_section').bind('click', function(e) {
     var target = $(this).attr("data-href");
     $('html, body').stop().animate({
       scrollTop: $(target).offset().top - 57
@@ -159,4 +150,44 @@ $(document).ready(function() {
        $('button.copy_clipboard').prev('.email_template_tooltip').fadeOut();
     }, 1500);
   });
+
+  // var limit_of_div = 5;
+  // $('.accordion-parent > div.accordion-item:gt('+(limit_of_div-1)+')').hide();
+  // if ($('.accordion-parent > div.accordion-item').length <= limit_of_div) {
+  //     $('.toggle_show_more').hide();
+
+  // }
+
+  // $('.toggle_show_more').click(function() {
+  //   if ($(this).text().toLowerCase() == "view all") {
+  //       $(this).text("Hide");
+  //       $(this).addClass('view_all');
+        
+  //       $(this).each(function() {
+  //         $(this).prev('.accordion-parent > div.accordion-item:gt('+(5-1)+')').show();
+  //       });
+  //   } else if ($(this).text().toLowerCase() == "hide") {
+  //       $(this).text("View all");
+  //       $(this).addClass('expand');
+        
+  //       $(this).each(function() {
+  //         $(this).prev('.accordion-parent > div.accordion-item:gt('+(5-1)+')').hide();
+  //       });
+  //   }
+  // });
+
 });
+
+
+$(window).scroll(function() {
+  var scrollDistance = $(window).scrollTop();
+
+  $('.section_landing_page').each(function(i) {
+    if ($(this).position().top - 58 <= scrollDistance) {
+      $('.menu_content ul a.active').removeClass('active');
+      $('.menu_content ul a').eq(i).addClass('active');
+    } else {
+      $('.menu_content ul a').eq(i).removeClass('active');
+    }
+  });
+}).scroll();
